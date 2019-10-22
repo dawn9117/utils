@@ -266,8 +266,7 @@ public class HttpClientUtils {
 					return new HttpClientResult(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 				}
 				if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-					log.info("[HttpClientUtils] send request uri[{}], response status: [{}], response: [{}]",
-							httpMethod.getURI().toString(), httpResponse.getStatusLine().getStatusCode(), JSON.toJSONString(httpResponse.getEntity()));
+					log.info("[HttpClientUtils] send request uri[{}], response: [{}]", httpMethod.getURI().toString(), httpResponse.toString());
 					throw ExceptionUtils.build(ErrorCode.HTTP_10002);
 				}
 				log.info("[HttpClientUtils] send request uri[{}], response success", httpMethod.getURI().toString());
