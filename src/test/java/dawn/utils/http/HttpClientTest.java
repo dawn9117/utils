@@ -9,8 +9,9 @@ import dawn.utils.exception.AppRTException;
 public class HttpClientTest {
 
 	public static void main(String[] args) throws AppRTException {
-		HttpClientResult result = HttpClientUtils.get("https://mops.invault.io");
+		HttpClientResult result = HttpClientUtils.get("http://baidu.com");
 		System.out.println(result);
 	}
+
 
 }

@@ -16,7 +16,7 @@ public enum ErrorCode {
 	HTTP_10002("-10002", "http request execute error"),
 	HTTP_10003("-10003", "http request execute failed"),
 	HTTP_10004("-10004", "http request build uri failed"),
-
+	HTTP_10005("-10005", "http request build form entity error"),
 
 	;
 
