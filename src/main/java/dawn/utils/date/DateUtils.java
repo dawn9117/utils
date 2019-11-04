@@ -75,6 +75,11 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		return DateFormatUtils.format(date, pattern);
 	}
 
+	public static String plusNowDate(int d, String pattern) {
+		Date date = addDays(new Date(), d);
+		return DateFormatUtils.format(date, pattern);
+	}
+
 	public static String localDateNow() {
 		return LocalDateTime.now().format(DateTimeFormatter.ISO_DATE);
 	}
@@ -84,7 +89,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		return DateFormatUtils.format(date, reformat);
 	}
 
-	private static Date parse(String dateStr, String pattern) {
+	public static Date parse(String dateStr, String... pattern) {
 		try {
 			return parseDate(dateStr, pattern);
 		} catch (ParseException e) {
