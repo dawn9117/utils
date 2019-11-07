@@ -1,6 +1,8 @@
 package dawn.utils.date;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.text.ParseException;
@@ -12,19 +14,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.TimeZone;
 
-/**
- * @author HEBO
- * @created 2019-10-08 17:00
- */
 @Slf4j
 public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	public static final String FORMAT_YMD = "yyyyMMdd";
 
 	public static final String FORMAT_Y_M_D = "yyyy-MM-dd";
 
-	public static final String FORMAT_Y_M_D_THMS = "yyyy-MM-dd'T'hh:mm:ss";
+	public static final String FORMAT_Y_M_D_THMS = "yyyy-MM-dd'T'HH:mm:ss";
 
-	public static final String FORMAT_Y_M_D_HMS = "yyyy-MM-dd hh:mm:ss";
+	public static final String FORMAT_Y_M_D_HMS = "yyyy-MM-dd HH:mm:ss";
+
+	public static final String[] PARSE_PATTERNS = {FORMAT_YMD, FORMAT_Y_M_D, FORMAT_Y_M_D_HMS};
 
 	/**
 	 * 太平洋时区
@@ -91,11 +91,37 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 
 	public static Date parse(String dateStr, String... pattern) {
 		try {
-			return parseDate(dateStr, pattern);
+			return ArrayUtils.isEmpty(pattern) ? parseDate(dateStr, PARSE_PATTERNS) : parseDate(dateStr, pattern);
 		} catch (ParseException e) {
 			log.error("[DateUtils] reformat error", e);
 		}
 		return null;
+	}
+
+	public static Date toDate(String timestamp) {
+		if (!StringUtils.isNumeric(timestamp)) {
+			return null;
+		}
+		Date date = new Date();
+		if (timestamp.length() <= 10) {
+			date.setTime(Long.valueOf(timestamp) * 1000);
+		}
+		if (timestamp.length() >= 13) {
+			date.setTime(Long.valueOf(timestamp));
+		}
+		return date;
+	}
+
+	public static String toTimeStamp(String date) {
+		if (StringUtils.isBlank(date)) {
+			return null;
+		}
+		Date parsed = parse(date);
+		return parsed != null ? String.valueOf(parsed.getTime()) : null;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(DateUtils.addMilliseconds(DateUtils.addHours(new Date(), -3), -1).before(DateUtils.addHours(new Date(), -3)));
 	}
 
 }

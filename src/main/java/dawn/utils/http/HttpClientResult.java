@@ -34,4 +34,9 @@ public class HttpClientResult {
 	public <T> T getContent(Class<T> clazz) {
 		return JSON.parseObject(content, clazz);
 	}
+
+	@Override
+	public String toString(){
+		return JSON.toJSONString(this);
+	}
 }
