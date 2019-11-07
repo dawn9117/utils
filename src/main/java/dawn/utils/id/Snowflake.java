@@ -56,7 +56,7 @@ public class Snowflake {
 	private long dataCenterId;  //数据中心
 	private long machineId;     //机器标识
 	private long sequence = 0L; //序列号
-	private long lastStamp = -1L;//上一次时间戳
+	private long lastTime = -1L;//上一次时间戳
 
 	public Snowflake(long dataCenterId, long machineId) {
 		if (dataCenterId > MAX_DATA_CENTER_NUM || dataCenterId < 0) {
@@ -75,40 +75,40 @@ public class Snowflake {
 	 * @return
 	 */
 	public synchronized long nextId() {
-		long currStamp = getNewStamp();
-		if (currStamp < lastStamp) {
+		long currentTime = getCurrentTimeStamp();
+		if (currentTime < lastTime) {
 			throw new RuntimeException("Clock moved backwards.  Refusing to generate id");
 		}
 
-		if (currStamp == lastStamp) {
+		if (currentTime == lastTime) {
 			//相同毫秒内，序列号自增
 			sequence = (sequence + 1) & MAX_SEQUENCE;
 			//同一毫秒的序列数已经达到最大
 			if (sequence == 0L) {
-				currStamp = getNextMill();
+				currentTime = getNextMill();
 			}
 		} else {
 			//不同毫秒内，序列号置为0
 			sequence = 0L;
 		}
 
-		lastStamp = currStamp;
+		lastTime = currentTime;
 
-		return (currStamp - START_STAMP) << TIMESTAMP_LEFT //时间戳部分
+		return (currentTime - START_STAMP) << TIMESTAMP_LEFT //时间戳部分
 				| dataCenterId << DATA_CENTER_LEFT       //数据中心部分
 				| machineId << MACHINE_LEFT             //机器标识部分
 				| sequence;                             //序列号部分
 	}
 
 	private long getNextMill() {
-		long mill = getNewStamp();
-		while (mill <= lastStamp) {
-			mill = getNewStamp();
+		long mill = getCurrentTimeStamp();
+		while (mill <= lastTime) {
+			mill = getCurrentTimeStamp();
 		}
 		return mill;
 	}
 
-	private long getNewStamp() {
+	private long getCurrentTimeStamp() {
 		return System.currentTimeMillis();
 	}
 
