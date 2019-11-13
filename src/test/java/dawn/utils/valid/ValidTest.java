@@ -1,6 +1,5 @@
 package dawn.utils.valid;
 
-import dawn.utils.dto.valid.ValidTestDto;
 
 /**
  * @author HEBO

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.FastDateFormat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,6 +17,7 @@ import java.util.TimeZone;
 
 @Slf4j
 public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
+
 	public static final String FORMAT_YMD = "yyyyMMdd";
 
 	public static final String FORMAT_Y_M_D = "yyyy-MM-dd";
@@ -24,26 +26,38 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 
 	public static final String FORMAT_Y_M_D_HMS = "yyyy-MM-dd HH:mm:ss";
 
-	public static final String[] PARSE_PATTERNS = {FORMAT_YMD, FORMAT_Y_M_D, FORMAT_Y_M_D_HMS};
-
 	/**
-	 * 太平洋时区
+	 * 通用日期格式
 	 */
-	public static final ZoneId pacificZone = ZoneId.of("America/Los_Angeles");
+	public static final String[] PARSE_PATTERNS = {FORMAT_YMD, FORMAT_Y_M_D, FORMAT_Y_M_D_HMS};
 
 	/**
 	 * 本地时区
 	 */
 	public static final ZoneId localZone = ZoneId.of("Asia/Shanghai");
 
-	public static String localToPacific(String dateStr) {
-		return ZonedDateTime.ofLocal(LocalDateTime.parse(dateStr), pacificZone, null).format(DateTimeFormatter.ISO_DATE_TIME);
+	/**
+	 * 本地日期转换成到指定时区
+	 *
+	 * @param dateStr 本地时间字符串 (yyyyMMdd HH:mm:ss)
+	 * @param zoneId  指定时区的ZoneId
+	 * @return 转换后的指定时区的日期字符串 (yyyyMMdd HH:mm:ss)
+	 */
+	public static String localToTarget(String dateStr, ZoneId zoneId) {
+		return ZonedDateTime.ofLocal(LocalDateTime.parse(dateStr), zoneId, null).format(DateTimeFormatter.ISO_DATE_TIME);
 	}
 
-	public static String pacificToLocal(String dateStr) {
+	/**
+	 * 异地时区时间转化到本地时间
+	 *
+	 * @param dateStr 异地时间字符串
+	 * @param zoneId  异地时区ZoneId
+	 * @return 本地时区的日期字符串 (yyyyMMdd HH:mm:ss)
+	 */
+	public static String toLocal(String dateStr, ZoneId zoneId) {
 		try {
 			SimpleDateFormat format = new SimpleDateFormat(FORMAT_Y_M_D_THMS);
-			format.setTimeZone(TimeZone.getTimeZone(pacificZone));
+			format.setTimeZone(TimeZone.getTimeZone(zoneId));
 			Date parse = format.parse(dateStr);
 			LocalDateTime dateTime = LocalDateTime.ofInstant(parse.toInstant(), localZone);
 			String res = dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
@@ -54,41 +68,47 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		return null;
 	}
 
-	public static Date pacificToLocalDate(String dateStr) {
-		try {
-			SimpleDateFormat format = new SimpleDateFormat(FORMAT_Y_M_D_THMS);
-			format.setTimeZone(TimeZone.getTimeZone(pacificZone));
-			return format.parse(dateStr);
-		} catch (ParseException e) {
-			log.error("[DateUtils] pacificToLocal error", e);
-		}
-		return null;
+	/**
+	 * 获取本地当前日期(yyyy-MM-dd)
+	 *
+	 * @return
+	 */
+	public static String now() {
+		return now(localZone);
 	}
 
-	public static String pacificDateNow() {
-		return LocalDateTime.now(pacificZone).format(DateTimeFormatter.ISO_DATE);
+	/**
+	 * 获取指定时区当前的日期 (yyyy-MM-dd)
+	 *
+	 * @param zoneId 指定时区
+	 * @return 指定时区的日期
+	 */
+	public static String now(ZoneId zoneId) {
+		return LocalDateTime.now(zoneId).format(DateTimeFormatter.ISO_DATE);
 	}
 
+
+	/**
+	 * 在给定的时间加减天数
+	 *
+	 * @param dateStr 日期
+	 * @param pattern 日期格式
+	 * @param d       天数
+	 * @return 加减后的日期
+	 */
 	public static String plus(String dateStr, String pattern, int d) {
 		Date date = parse(dateStr, pattern);
 		date = addDays(date, d);
 		return DateFormatUtils.format(date, pattern);
 	}
 
-	public static String plusNowDate(int d, String pattern) {
-		Date date = addDays(new Date(), d);
-		return DateFormatUtils.format(date, pattern);
-	}
-
-	public static String localDateNow() {
-		return LocalDateTime.now().format(DateTimeFormatter.ISO_DATE);
-	}
-
-	public static String reformat(String dateStr, String pattern, String reformat) {
-		Date date = parse(dateStr, pattern);
-		return DateFormatUtils.format(date, reformat);
-	}
-
+	/**
+	 * 解析日期
+	 *
+	 * @param dateStr 日期字符串
+	 * @param pattern 日期格式
+	 * @return 日期
+	 */
 	public static Date parse(String dateStr, String... pattern) {
 		try {
 			return ArrayUtils.isEmpty(pattern) ? parseDate(dateStr, PARSE_PATTERNS) : parseDate(dateStr, pattern);
@@ -98,6 +118,35 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		return null;
 	}
 
+	/**
+	 * 异地时间转换为本地date(yyyy-MM-dd'T'HH:mm:ss)
+	 *
+	 * @param dateStr 异地时间字符串
+	 * @param zoneId  异地的时区
+	 * @return 本地时间
+	 */
+	public static Date parse(String dateStr, ZoneId zoneId, String... patterns) {
+		if (ArrayUtils.isEmpty(patterns)) {
+			patterns = PARSE_PATTERNS;
+		}
+		for (String pattern : patterns) {
+			try {
+				FastDateFormat dateFormat = FastDateFormat.getInstance(pattern, TimeZone.getTimeZone(zoneId));
+				return dateFormat.parse(dateStr);
+			} catch (ParseException e) {
+			}
+		}
+		log.error("[DateUtils] parse error");
+		return null;
+	}
+
+
+	/**
+	 * 时间戳转成日期(可以是秒, 也可以是毫秒)
+	 *
+	 * @param timestamp
+	 * @return
+	 */
 	public static Date toDate(String timestamp) {
 		if (!StringUtils.isNumeric(timestamp)) {
 			return null;
@@ -112,6 +161,12 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		return date;
 	}
 
+	/**
+	 * 日期转时间戳(毫秒)
+	 *
+	 * @param date
+	 * @return
+	 */
 	public static String toTimeStamp(String date) {
 		if (StringUtils.isBlank(date)) {
 			return null;
@@ -120,8 +175,28 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		return parsed != null ? String.valueOf(parsed.getTime()) : null;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(DateUtils.addMilliseconds(DateUtils.addHours(new Date(), -3), -1).before(DateUtils.addHours(new Date(), -3)));
+	/**
+	 * 格式化日期
+	 *
+	 * @param date    日期
+	 * @param pattern 格式
+	 * @return 日期字符串
+	 */
+	public static String format(Date date, String pattern) {
+		return DateFormatUtils.format(date, pattern);
+	}
+
+	/**
+	 * 重新格式化时间字符串
+	 *
+	 * @param dateStr  日期字符串
+	 * @param pattern  原始格式
+	 * @param reformat 目标格式
+	 * @return
+	 */
+	public static String reformat(String dateStr, String pattern, String reformat) {
+		Date date = parse(dateStr, pattern);
+		return DateFormatUtils.format(date, reformat);
 	}
 
 }

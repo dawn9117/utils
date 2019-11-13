@@ -1,4 +1,4 @@
-package dawn.utils.dto.valid;
+package dawn.utils.valid;
 
 import lombok.Data;
 
