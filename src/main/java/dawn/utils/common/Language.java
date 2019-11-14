@@ -1,4 +1,4 @@
-package dawn.utils.costant;
+package dawn.utils.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

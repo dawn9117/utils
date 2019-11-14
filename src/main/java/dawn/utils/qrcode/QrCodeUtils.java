@@ -8,7 +8,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import dawn.utils.costant.Constants;
+import dawn.utils.common.Constants;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

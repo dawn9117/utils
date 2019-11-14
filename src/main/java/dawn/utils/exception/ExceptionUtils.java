@@ -1,6 +1,6 @@
 package dawn.utils.exception;
 
-import dawn.utils.costant.ErrorCode;
+import dawn.utils.common.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 
 /**

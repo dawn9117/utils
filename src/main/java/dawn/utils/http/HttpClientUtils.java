@@ -2,7 +2,7 @@ package dawn.utils.http;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
-import dawn.utils.costant.ErrorCode;
+import dawn.utils.common.ErrorCode;
 import dawn.utils.exception.AppRTException;
 import dawn.utils.exception.ExceptionUtils;
 import lombok.extern.slf4j.Slf4j;

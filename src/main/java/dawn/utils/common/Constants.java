@@ -1,4 +1,4 @@
-package dawn.utils.costant;
+package dawn.utils.common;
 
 public class Constants {
 

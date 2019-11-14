@@ -71,10 +71,20 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	/**
 	 * 获取本地当前日期(yyyy-MM-dd)
 	 *
-	 * @return
+	 * @return 当前日期
 	 */
 	public static String now() {
 		return now(localZone);
+	}
+
+	/**
+	 * 获取当地的当前日期或时间
+	 *
+	 * @param pattern 格式化
+	 * @return 指定时区的日期
+	 */
+	public static String now(String pattern) {
+		return format(new Date(), pattern);
 	}
 
 	/**
@@ -87,6 +97,16 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		return LocalDateTime.now(zoneId).format(DateTimeFormatter.ISO_DATE);
 	}
 
+	/**
+	 * 获取指定时区当前的日期或时间
+	 *
+	 * @param zoneId    指定时区
+	 * @param formatter 格式化类型
+	 * @return 指定时区的日期
+	 */
+	public static String now(ZoneId zoneId, DateTimeFormatter formatter) {
+		return LocalDateTime.now(zoneId).format(formatter);
+	}
 
 	/**
 	 * 在给定的时间加减天数
@@ -140,11 +160,10 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		return null;
 	}
 
-
 	/**
 	 * 时间戳转成日期(可以是秒, 也可以是毫秒)
 	 *
-	 * @param timestamp
+	 * @param timestamp 时间戳字符串
 	 * @return
 	 */
 	public static Date toDate(String timestamp) {
@@ -164,10 +183,10 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	/**
 	 * 日期转时间戳(毫秒)
 	 *
-	 * @param date
+	 * @param date 日期字符串
 	 * @return
 	 */
-	public static String toTimeStamp(String date) {
+	public static String toTimestamp(String date) {
 		if (StringUtils.isBlank(date)) {
 			return null;
 		}
