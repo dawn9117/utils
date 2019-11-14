@@ -21,20 +21,12 @@ public class IdHelper {
 
 	private Snowflake snowflake;
 
-	private static final long MAX_WORKER_ID = 31;
-
 	@Autowired
 	private WorkIdHandler machineId;
 
 	@PostConstruct
 	private void init() {
-		Integer workerId = machineId.getWorkerId();
-
-		if (workerId > MAX_WORKER_ID) {
-			throw new IllegalArgumentException(String.format("[IdHelper] worker Id can't be greater than %d or less than 0", MAX_WORKER_ID));
-		}
-		log.info("====当前节点workerId：{}====", workerId);
-		this.snowflake = new Snowflake(workerId, 0L);
+		this.snowflake = new Snowflake(machineId.getWorkerId(), 0L);
 	}
 
 	/**
