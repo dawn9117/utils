@@ -3,9 +3,9 @@ package dawn.utils.common;
 public class Constants {
 
   //编码方式
-  public static final String CHARACTER_UTF_8 = "utf-8";
+  public static final String CHARSET_UTF_8 = "utf-8";
   
-  public static final String CHARACTER_ISO_8859_1 = "iso-8859-1";
+  public static final String CHARSET_ISO_8859_1 = "iso-8859-1";
   
   //文件分隔符
   public static final String FILE_PATH_SEPARATOR = "/";

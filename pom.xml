@@ -32,6 +32,7 @@
         <commons.httpclient.version>3.1</commons.httpclient.version>
         <pd4ml.version>1.0.0</pd4ml.version>
         <spring.jms.versoin>5.1.10.RELEASE</spring.jms.versoin>
+        <apache.csv.version>1.7</apache.csv.version>
     </properties>
 
     <dependencies>
@@ -144,6 +145,14 @@
             <artifactId>httpmime</artifactId>
             <version>${httpcomponents.version}</version>
         </dependency>
+
+        <!--CSV-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>${apache.csv.version}</version>
+        </dependency>
+
 
     </dependencies>
 

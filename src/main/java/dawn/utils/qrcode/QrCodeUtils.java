@@ -99,7 +99,7 @@ public class QrCodeUtils {
 	 */
 	private static String changeEncodeType(String str) {
 		try {
-			return new String(str.getBytes(Constants.CHARACTER_UTF_8), Constants.CHARACTER_ISO_8859_1);
+			return new String(str.getBytes(Constants.CHARSET_UTF_8), Constants.CHARSET_ISO_8859_1);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return str;
