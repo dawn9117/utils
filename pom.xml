@@ -37,6 +37,7 @@
         <commons.collection4.version>4.3</commons.collection4.version>
         <spring.aop.version>5.2.3.RELEASE</spring.aop.version>
         <aspectj.version>1.5.3</aspectj.version>
+        <easypoi.version>4.1.3</easypoi.version>
     </properties>
 
     <dependencies>
@@ -189,7 +190,12 @@
             <version>${aspectj.version}</version>
         </dependency>
 
-
+        <!-- easy poi -->
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-spring-boot-starter</artifactId>
+            <version>${easypoi.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
