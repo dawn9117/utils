@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  */
 public class RegexUtils {
 
-	protected static boolean compilePattern(String reg, String content) {
+	public static boolean compilePattern(String reg, String content) {
 		if (reg == null || content == null) {
 			return false;
 		}
