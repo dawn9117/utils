@@ -1,8 +1,15 @@
 package dawn.utils.exception;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Getter
+@Setter
 public class AppRTException extends Exception {
 
-	public static final long serialVersionUID = 0;
+	public static final long serialVersionUID = 1L;
 
 	/**
 	 * 应用异常码
@@ -19,56 +26,26 @@ public class AppRTException extends Exception {
 	 */
 	private Object[] messageParams;
 
-	public AppRTException(String code, String msg) {
-		super(code + " : " + msg);
-		this.code = code;
-		this.textMessage = msg;
-	}
-
-	public AppRTException(String code) {
-		super(code);
-		this.code = code;
-	}
-
-	public AppRTException(String code, boolean useParamFormat, Object... messageParams) {
-		super(code);
-		this.code = code;
-		if (useParamFormat) {
-			this.messageParams = messageParams;
-		}
-	}
-
-	public AppRTException(String code, String msg, Throwable cause) {
-		super(code + ": " + msg, cause);
-		this.code = code;
-	}
-
 	public AppRTException(Throwable cause) {
 		super(cause);
 	}
 
-	public String getCode() {
-		return code;
+	public AppRTException(String code) {
+		this(code, null);
 	}
 
-	public void setCode(String string) {
-		code = string;
+	public AppRTException(String code, String msg) {
+		this(code, msg, false);
 	}
 
-	public String getTextMessage() {
-		return textMessage;
-	}
 
-	public void setTextMessage(String textMessage) {
-		this.textMessage = textMessage;
-	}
-
-	public Object[] getMessageParams() {
-		return messageParams;
-	}
-
-	public void setMessageParams(Object[] messageParams) {
-		this.messageParams = messageParams;
+	public AppRTException(String code, String msg, boolean useParamFormat, Object... messageParams) {
+		super(msg);
+		this.code = code;
+		this.textMessage = msg;
+		if (useParamFormat) {
+			this.messageParams = messageParams;
+		}
 	}
 
 	@Override
