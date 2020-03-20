@@ -7,8 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum DownloadTemplate {
 
-	IMPORT_USER("templates/excel/import_user.xlsx", "中国联通视频云用户", "xlsx"),
-	IMPORT_DEPT("templates/excel/import_dept.xlsx", "中国联通视频云用户", "xlsx"),
+	IMPORT_USER("templates/excel/import_user.xlsx", "XXXX", "xlsx"),
+	IMPORT_DEPT("templates/excel/import_dept.xlsx", "XXXX", "xlsx"),
 
 
 	;
