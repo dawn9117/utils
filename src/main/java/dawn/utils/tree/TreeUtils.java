@@ -2,8 +2,10 @@ package dawn.utils.tree;
 
 
 import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @UtilityClass
@@ -14,13 +16,17 @@ public class TreeUtils {
 	 * @param treeNodes 传入的树节点列表
 	 * @return
 	 */
-	public <T extends TreeNode> List<T> build(List<T> treeNodes, Object root) {
-
+	public <T extends TreeNode> List<T> build(List<T> treeNodes, Object... roots) {
 		List<T> trees = new ArrayList<>();
 
-		for (T treeNode : treeNodes) {
+		if (ArrayUtils.isEmpty(roots)) {
+			return trees;
+		}
 
-			if (root.equals(treeNode.getParentId())) {
+		List<Object> rootList = Arrays.asList(roots);
+
+		for (T treeNode : treeNodes) {
+			if (rootList.contains(treeNode.getParentId())) {
 				trees.add(treeNode);
 			}
 
@@ -69,6 +75,4 @@ public class TreeUtils {
 		}
 		return treeNode;
 	}
-
-
 }

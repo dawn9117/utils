@@ -20,6 +20,11 @@ public abstract class ExceptionUtils {
 		return build(error.getCode(), error.getMsg());
 	}
 
+	public static AppRTException build(ErrorCode error, Throwable throwable) {
+		log.error("服务器异常", throwable);
+		return build(error.getCode(), error.getMsg());
+	}
+
 	public static AppRTException build(String msg) {
 		return build(ErrorCode.BIZ_EXCEPTION.getCode(), msg);
 	}

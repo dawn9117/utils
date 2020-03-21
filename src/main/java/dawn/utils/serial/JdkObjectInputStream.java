@@ -1,6 +1,5 @@
 package dawn.utils.serial;
 
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,8 +13,10 @@ import java.lang.reflect.Field;
  * JDK序列化对象后, 对象反序列化失败, 重写方法解决问题
  */
 @Slf4j
-@NoArgsConstructor
 public class JdkObjectInputStream extends ObjectInputStream {
+
+	public JdkObjectInputStream() throws IOException {
+	}
 
 	public JdkObjectInputStream(InputStream arg0) throws IOException {
 		super(arg0);
