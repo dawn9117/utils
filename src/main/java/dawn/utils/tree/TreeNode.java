@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class TreeNode {
+public class TreeNode<T extends TreeNode> {
 
 	protected String id;
 
 	protected String parentId;
 
-	protected List<TreeNode> children = new ArrayList<>();
+	protected List<T> children = new ArrayList<>();
 
-	protected void add(TreeNode node) {
+	protected void add(T node) {
 		children.add(node);
 	}
 }

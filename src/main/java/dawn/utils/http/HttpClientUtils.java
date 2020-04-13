@@ -2,10 +2,6 @@ package dawn.utils.http;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
-import dawn.utils.common.ErrorCode;
-import dawn.utils.exception.AppRTException;
-import dawn.utils.exception.ExceptionUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
@@ -36,7 +32,6 @@ import java.util.function.Function;
  * @author HEBO
  * @created 2019-09-24 18:22
  */
-@Slf4j
 public class HttpClientUtils {
 
 	// 设置连接超时时间，单位毫秒。
@@ -101,9 +96,9 @@ public class HttpClientUtils {
 	 *
 	 * @param url 请求地址
 	 * @return
-	 * @throws AppRTException
+	 * @throws Exception
 	 */
-	public static HttpClientResult get(String url) throws AppRTException {
+	public static HttpClientResult get(String url) throws Exception {
 		return get(url, null);
 	}
 
@@ -113,9 +108,9 @@ public class HttpClientUtils {
 	 * @param url    请求地址
 	 * @param params 请求参数集合
 	 * @return
-	 * @throws AppRTException
+	 * @throws Exception
 	 */
-	public static HttpClientResult get(String url, Map<String, String> params) throws AppRTException {
+	public static HttpClientResult get(String url, Map<String, String> params) throws Exception {
 		return get(url, null, params);
 	}
 
@@ -126,11 +121,11 @@ public class HttpClientUtils {
 	 * @param headers 请求头集合
 	 * @param params  请求参数集合
 	 * @return
-	 * @throws AppRTException
+	 * @throws Exception
 	 */
-	public static HttpClientResult get(String url, Map<String, String> headers, Map<String, String> params) throws AppRTException {
+	public static HttpClientResult get(String url, Map<String, String> headers, Map<String, String> params) throws Exception {
 		URI uri = buildURI(url, params);
-		return zouQi(new HttpGet(uri), headers, null);
+		return send(new HttpGet(uri), headers, null);
 	}
 
 	/**
@@ -141,11 +136,10 @@ public class HttpClientUtils {
 	 * @param params   请求参数集合
 	 * @param function 回调函数, 定制化处理响应结果可用
 	 * @return
-	 * @throws AppRTException
 	 */
-	public static HttpClientResult getWithCallBack(String url, Map<String, String> headers, Map<String, String> params, Function<HttpResponse, String> function) throws AppRTException {
+	public static HttpClientResult getWithCallBack(String url, Map<String, String> headers, Map<String, String> params, Function<HttpResponse, String> function) throws Exception {
 		URI uri = buildURI(url, params);
-		return zouQi(new HttpGet(uri), headers, null, function);
+		return send(new HttpGet(uri), headers, null, function);
 	}
 
 	/**
@@ -167,7 +161,7 @@ public class HttpClientUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpClientResult post(String url, Map<String, String> params) throws AppRTException {
+	public static HttpClientResult post(String url, Map<String, String> params) throws Exception {
 		return post(url, null, params);
 	}
 
@@ -179,7 +173,7 @@ public class HttpClientUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpClientResult post(String url, String params) throws AppRTException {
+	public static HttpClientResult post(String url, String params) throws Exception {
 		return post(url, null, params);
 	}
 
@@ -192,7 +186,7 @@ public class HttpClientUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpClientResult post(String url, Map<String, String> headers, Map<String, String> params) throws AppRTException {
+	public static HttpClientResult post(String url, Map<String, String> headers, Map<String, String> params) throws Exception {
 		// 执行请求并获得响应结果
 		return post(url, headers, JSON.toJSONString(params));
 	}
@@ -205,7 +199,7 @@ public class HttpClientUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpClientResult postForm(String url, Map<String, String> params) throws AppRTException {
+	public static HttpClientResult postForm(String url, Map<String, String> params) throws Exception {
 		// 执行请求并获得响应结果
 		return postForm(url, null, params, null);
 	}
@@ -219,7 +213,7 @@ public class HttpClientUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpClientResult postForm(String url, Map<String, String> headers, Map<String, String> params) throws AppRTException {
+	public static HttpClientResult postForm(String url, Map<String, String> headers, Map<String, String> params) throws Exception {
 		// 执行请求并获得响应结果
 		return sendForm(new HttpPost(url), headers, params, null);
 	}
@@ -233,7 +227,7 @@ public class HttpClientUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpClientResult postForm(String url, Map<String, String> headers, Map<String, String> params, Function<HttpResponse, String> function) throws AppRTException {
+	public static HttpClientResult postForm(String url, Map<String, String> headers, Map<String, String> params, Function<HttpResponse, String> function) throws Exception {
 		// 执行请求并获得响应结果
 		return sendForm(new HttpPost(url), headers, params, function);
 	}
@@ -247,9 +241,9 @@ public class HttpClientUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpClientResult post(String url, Map<String, String> headers, String params) throws AppRTException {
+	public static HttpClientResult post(String url, Map<String, String> headers, String params) throws Exception {
 		// 执行请求并获得响应结果
-		return zouQi(new HttpPost(url), headers, params);
+		return send(new HttpPost(url), headers, params);
 	}
 
 	/**
@@ -259,7 +253,7 @@ public class HttpClientUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpClientResult put(String url) throws AppRTException {
+	public static HttpClientResult put(String url) throws Exception {
 		return put(url, null);
 	}
 
@@ -271,7 +265,7 @@ public class HttpClientUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpClientResult put(String url, Map<String, String> params) throws AppRTException {
+	public static HttpClientResult put(String url, Map<String, String> params) throws Exception {
 		return put(url, null, params);
 	}
 
@@ -284,9 +278,9 @@ public class HttpClientUtils {
 	 * @return HttpClientResult
 	 * @throws Exception
 	 */
-	public static HttpClientResult put(String url, Map<String, String> headers, Map<String, String> params) throws AppRTException {
+	public static HttpClientResult put(String url, Map<String, String> headers, Map<String, String> params) throws Exception {
 		URI uri = buildURI(url, params);
-		return zouQi(new HttpPut(uri), headers, null);
+		return send(new HttpPut(uri), headers, null);
 	}
 
 	/**
@@ -296,8 +290,20 @@ public class HttpClientUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static HttpClientResult delete(String url) throws AppRTException {
-		return zouQi(new HttpDelete(url), null, null);
+	public static HttpClientResult delete(String url) throws Exception {
+		return delete(url, null, null);
+	}
+
+	/**
+	 * 发送delete请求；不带请求参数
+	 *
+	 * @param url 请求地址
+	 * @return
+	 * @throws Exception
+	 */
+	public static HttpClientResult delete(String url, Map<String, String> headers, Map<String, String> params) throws Exception {
+		URI uri = buildURI(url, params);
+		return send(new HttpDelete(uri), headers, null);
 	}
 
 	/**
@@ -307,8 +313,8 @@ public class HttpClientUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	private static HttpClientResult zouQi(HttpRequestBase httpMethod, Map<String, String> headers, String params) throws AppRTException {
-		return zouQi(httpMethod, headers, params, null);
+	public static HttpClientResult send(HttpRequestBase httpMethod, Map<String, String> headers, String params) throws Exception {
+		return send(httpMethod, headers, params, null);
 	}
 
 	/**
@@ -318,14 +324,15 @@ public class HttpClientUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	private static HttpClientResult zouQi(HttpRequestBase httpMethod, Map<String, String> headers, String params, Function<HttpResponse, String> function) throws AppRTException {
+	@SuppressWarnings("all")
+	public static HttpClientResult send(HttpRequestBase httpMethod, Map<String, String> headers, String params, Function<HttpResponse, String> function) throws Exception {
 		try {
-			// 准备请求
 			prepareRequest(httpMethod, headers, params);
+
 			// 执行请求
-			return zouQi(httpMethod, function);
+			return send(httpMethod, function);
 		} catch (Exception e) {
-			throw ExceptionUtils.build(ErrorCode.HTTP_10002, e);
+			throw new Exception(e);
 		}
 	}
 
@@ -336,28 +343,22 @@ public class HttpClientUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	private static HttpClientResult sendForm(HttpRequestBase httpMethod, Map<String, String> headers, Map<String, String> params, Function<HttpResponse, String> function) throws AppRTException {
+	public static HttpClientResult sendForm(HttpRequestBase httpMethod, Map<String, String> headers, Map<String, String> params, Function<HttpResponse, String> function) throws Exception {
 		try {
 			// 准备请求
 			prepareFormRequest(headers, params, httpMethod);
-			return zouQi(httpMethod, function);
+			return send(httpMethod, function);
 		} catch (Exception e) {
-			throw ExceptionUtils.build(ErrorCode.HTTP_10002, e);
+			throw new Exception(e);
 		}
 	}
 
-	private static HttpClientResult zouQi(HttpRequestBase httpMethod, Function<HttpResponse, String> function) throws IOException, AppRTException {
+	public static HttpClientResult send(HttpRequestBase httpMethod, Function<HttpResponse, String> function) throws IOException, Exception {
 		// 执行请求
 		try (CloseableHttpResponse httpResponse = httpClient.execute(httpMethod)) {
 			if (httpResponse.getStatusLine() == null) {
-				log.info("[HttpClientUtils] zouQi request uri[{}], response status line is null", httpMethod.getURI().toString());
 				return new HttpClientResult(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 			}
-			if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-				log.info("[HttpClientUtils] zouQi request uri[{}], response: [{}]", httpMethod.getURI().toString(), httpResponse.toString());
-				throw ExceptionUtils.build(ErrorCode.HTTP_10002);
-			}
-			log.info("[HttpClientUtils] zouQi request uri[{}], response success", httpMethod.getURI().toString());
 
 			if (Objects.isNull(function)) {
 				String content = Objects.isNull(httpResponse.getEntity()) ? StringUtils.EMPTY : EntityUtils.toString(httpResponse.getEntity(), ENCODING);
@@ -403,7 +404,7 @@ public class HttpClientUtils {
 	 * @param httpMethod
 	 * @throws UnsupportedEncodingException
 	 */
-	private static void prepareFormRequest(Map<String, String> headers, Map<String, String> params, HttpRequestBase httpMethod) throws AppRTException {
+	private static void prepareFormRequest(Map<String, String> headers, Map<String, String> params, HttpRequestBase httpMethod) throws Exception {
 		// 设置请求头
 		httpMethod.setHeader(HTTP.CONTENT_TYPE, FORM_CONTENT_TYPE);
 		httpMethod.setHeader(HTTP.USER_AGENT, FORM_USER_AGENT);
@@ -425,11 +426,11 @@ public class HttpClientUtils {
 		try {
 			method.setEntity(new UrlEncodedFormEntity(paramList, ENCODING));
 		} catch (UnsupportedEncodingException e) {
-			throw ExceptionUtils.build(ErrorCode.HTTP_10005, e);
+			throw new Exception(e);
 		}
 	}
 
-	private static URI buildURI(String url, Map<String, String> params) throws AppRTException {
+	public static URI buildURI(String url, Map<String, String> params) throws Exception {
 		try {
 			URIBuilder ub = new URIBuilder(url);
 			if (params != null) {
@@ -441,8 +442,12 @@ public class HttpClientUtils {
 			}
 			return ub.build();
 		} catch (Exception e) {
-			throw ExceptionUtils.build(ErrorCode.HTTP_10004, e);
+			throw new Exception(e);
 		}
+	}
+
+	public static URI buildURI(String url) throws Exception {
+		return buildURI(url, null);
 	}
 
 }
