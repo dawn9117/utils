@@ -29,7 +29,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	/**
 	 * 通用日期格式
 	 */
-	public static final String[] PARSE_PATTERNS = {FORMAT_YMD, FORMAT_Y_M_D, FORMAT_Y_M_D_HMS};
+	public static final String[] PARSE_PATTERNS = {FORMAT_YMD, FORMAT_Y_M_D, FORMAT_Y_M_D_HMS, FORMAT_Y_M_D_THMS};
 
 	/**
 	 * 本地时区

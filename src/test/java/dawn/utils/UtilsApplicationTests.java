@@ -1,6 +1,5 @@
 package dawn.utils;
 
-import dawn.utils.exception.AppRTException;
 import dawn.utils.http.HttpClientResult;
 import dawn.utils.http.HttpClientUtils;
 import org.junit.Test;
@@ -13,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class UtilsApplicationTests {
 
 	@Test
-	public void contextLoads() throws AppRTException {
+	public void contextLoads() throws Exception {
 		HttpClientResult result = HttpClientUtils.get("http://www.baidu.com");
 		System.out.println(result.getContent());
 
