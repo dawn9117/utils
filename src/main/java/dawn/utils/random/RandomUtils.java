@@ -90,7 +90,6 @@ public class RandomUtils {
 		for (; ; ) {
 			// 长度满足, 退出
 			if (sb.length() >= length) {
-				System.out.println(JSON.toJSONString(included));
 				return sb.toString();
 			}
 
