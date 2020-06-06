@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
  */
 @Getter
 @Setter
-@Component
-@ConfigurationProperties(prefix = "zk")
+//@Component
+//@ConfigurationProperties(prefix = "zk")
 public class ZkConfig {
 
 	/**

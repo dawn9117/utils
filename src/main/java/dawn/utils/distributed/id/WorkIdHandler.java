@@ -25,7 +25,7 @@ import java.net.UnknownHostException;
  * </p>
  */
 @Slf4j
-@Component
+//@Component
 public class WorkIdHandler {
 
 	@Autowired

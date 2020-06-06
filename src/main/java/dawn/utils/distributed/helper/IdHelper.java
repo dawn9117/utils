@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
  * 最大支持32台物理机使用, 需要扩大的话需要增加workId占用的长度, 最大1024
  * </>
  */
-@Component
+//@Component
 @Slf4j
 public class IdHelper {
 

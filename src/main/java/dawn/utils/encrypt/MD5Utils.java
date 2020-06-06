@@ -6,6 +6,7 @@ import dawn.utils.exception.AppRTException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jasypt.util.text.BasicTextEncryptor;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -98,6 +99,24 @@ public class MD5Utils {
 			hex.append(Integer.toHexString(b & 0xFF));
 		}
 		return hex.toString();
+	}
+
+
+	public static void main(String[] args) throws UnsupportedEncodingException {
+//		BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
+//		textEncryptor.setPassword("pigx");
+//		System.out.println(textEncryptor.decrypt("ltJPpR50wT0oIY9kfOe1Iw=="));
+
+		//加密所需的salt(盐)
+
+		//要加密的数据（数据库的用户名或密码）
+//		String username = textEncryptor.encrypt("root");
+//		String password = textEncryptor.encrypt("root123");
+//		System.out.println("username:"+username);
+
+		System.out.println(new String("理想").getBytes("UTF-8").length);
+		System.out.println(new String("理想").getBytes("GBK").length);
+//		System.out.println("password:"+password);
 	}
 
 }

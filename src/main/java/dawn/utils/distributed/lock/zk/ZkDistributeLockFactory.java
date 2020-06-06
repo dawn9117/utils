@@ -24,7 +24,7 @@ import java.util.List;
  * zk 实现分布式锁
  */
 @Slf4j
-@Component
+//@Component
 public class ZkDistributeLockFactory implements DistributeLockFactory {
 
 	/**

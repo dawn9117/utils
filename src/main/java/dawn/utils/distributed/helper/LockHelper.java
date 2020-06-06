@@ -13,7 +13,7 @@ import java.util.List;
  * 分布式锁帮助类
  */
 @Slf4j
-@Component
+//@Component
 public class LockHelper {
 
 	@Autowired
