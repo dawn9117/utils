@@ -31,7 +31,7 @@ public class CustomizeLocalDateTimeDeserializer extends LocalDateTimeDeserialize
 		String text = "temp";
 		int year = 0, month = 0, day = 0, hour = 0, min = 0, sec = 0;
 		while (StringUtils.isNotBlank(text)) {
-			text = String.valueOf(jsonParser.getText());
+			text = jsonParser.getText();
 			if (StringUtils.isBlank(text) || "null".equals(text)) {
 				break;
 			}
