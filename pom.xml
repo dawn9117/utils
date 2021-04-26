@@ -32,7 +32,7 @@
         <xhtmlrenderer.version>R8</xhtmlrenderer.version>
         <google.zxing.verson>3.3.3</google.zxing.verson>
         <commons.httpclient.version>3.1</commons.httpclient.version>
-        <commons.io.version>2.6</commons.io.version>
+        <commons.io.version>2.7</commons.io.version>
         <commons.lang3.version>3.8.1</commons.lang3.version>
         <commons.collection4.version>4.3</commons.collection4.version>
         <spring.aop.version>5.2.3.RELEASE</spring.aop.version>
