@@ -27,7 +27,7 @@
         <freemarker.version>2.3.29</freemarker.version>
         <itextpdf.version>5.5.11</itextpdf.version>
         <itext.asian.version>5.2.0</itext.asian.version>
-        <httpcomponents.version>4.5.10</httpcomponents.version>
+        <httpcomponents.version>4.5.13</httpcomponents.version>
         <jxl.version>2.6.10</jxl.version>
         <xhtmlrenderer.version>R8</xhtmlrenderer.version>
         <google.zxing.verson>3.3.3</google.zxing.verson>
